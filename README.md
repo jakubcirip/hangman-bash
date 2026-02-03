@@ -1,7 +1,7 @@
 # hangman-bash
 Simple hangman game in bash by jc.
 
-## Versions:
+### Versions:
 ### Hangman v1.0
 Located in hangman_v1/ <br>
 The first version provides simple functionality to start, play and end game.
