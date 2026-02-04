@@ -15,5 +15,5 @@ Located in hangman_v3/ <br>
 Adding time to perform one move (entering one letter), default set to 10 seconds. <br>
 Improved rating evaluation.
 
-## words.txt
+## words
 Source file containing 55525 English words
