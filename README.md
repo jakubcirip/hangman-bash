@@ -16,4 +16,4 @@ Adding time to perform one move (entering one letter), default set to 10 seconds
 Improved rating evaluation.
 
 ## words
-Source file containing 55525 English words
+Source file containing 55525 English words.
