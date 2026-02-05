@@ -127,7 +127,7 @@ game_body () {
         try=7			# number of attempts
         tmp_word=""
         entered_letters=""
-	      letter=""
+	    letter=""
         while [ $try -gt 0 ]; do
                 echo "You have $try attempts"
 		            read -t 10 -p "Enter the letter within 10 seconds: " letter
@@ -154,12 +154,12 @@ game_body () {
                 echo "Guessed word: $guess_word"
                 echo "Entered letters: $entered_letters"
                 if [[ $rword == $guess_word ]]; then
-                        echo ""
+                		echo ""
                         echo "Game won, Congratulation!"
                         echo "The word was: $rword"
                         echo ""
-			                  ((wins++))
-			                  return 1
+			            ((wins++))
+			            return 1
                 elif [[ check -ge 1 ]]; then
                         print_hangman $try
                         echo ""
@@ -197,7 +197,7 @@ while [[ 1 ]]; do
 			                  echo "Game ended, Good bye!"
 			                  exit 0
 		            elif [[ $nickname != [a-zA-Z]* ]]; then
-                        echo "Name must begin with alphabetic character"
+                    		  echo "Name must begin with alphabetic character"
 			                  echo "Try again!"
 			                  continue
 		            elif [[ ${#nickname} -lt 3 ]]; then
@@ -228,26 +228,26 @@ while [[ 1 ]]; do
         read option
         case $option in
                 [sS] )
-			                  ((games++))
+			    			  ((games++))
 			                  echo "Game $games."
-                        echo "Generating random english word..."
-                        rword=$(tr -s ' ' '\n' < words | shuf -n 1)
-                        echo "Try to guess word"
+                        	  echo "Generating random english word..."
+                        	  rword=$(tr -s ' ' '\n' < words | shuf -n 1)
+                        	  echo "Try to guess word"
 			                  game_body
 			                  game_init
-                        ;;
+                        	  ;;
                 [qQ] )
 			                  echo
 			                  ./rating.sh $nickname $games $wins
-                        echo "Good bye!"
+                        	  echo "Good bye!"
 			                  echo
 			                  echo "Hangman top 10 Leaderboard:"
 			                  head -n11 leaderboard.txt
-                        exit 0
-                        ;;
+                        	  exit 0
+                        	  ;;
                 * )
-                        echo "Wrong option"
+                        	  echo "Wrong option"
 			                  game_init
-                        ;;
+                        	  ;;
         esac
 done
