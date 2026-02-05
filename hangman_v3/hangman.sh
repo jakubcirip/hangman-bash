@@ -130,10 +130,10 @@ game_body () {
 	    letter=""
         while [ $try -gt 0 ]; do
                 echo "You have $try attempts"
-		            read -t 10 -p "Enter the letter within 10 seconds: " letter
+		        read -t 10 -p "Enter the letter within 10 seconds: " letter
                 if [[ -z $letter ]]; then
-			                  echo
-		            fi	
+			    				echo
+		        fi	
                 check=0
                 entered_letters=$entered_letters$letter
                 guess_word=""
