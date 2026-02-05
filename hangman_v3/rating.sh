@@ -10,7 +10,7 @@
 
 # Argument check
 if [[ $# -ne 3 ]]; then
-        echo "Invalid arguments"
+    	  echo "Invalid arguments"
 	      exit 1
 fi
 nickname=$1
