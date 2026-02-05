@@ -132,7 +132,7 @@ game_body () {
                 echo "You have $try attempts"
 		        read -t 10 -p "Enter the letter within 10 seconds: " letter
                 if [[ -z $letter ]]; then
-			    				echo
+			    		echo ""
 		        fi	
                 check=0
                 entered_letters=$entered_letters$letter
