@@ -127,23 +127,23 @@ game_body () {
         try=7			# number of attempts
         tmp_word=""
         entered_letters=""
-	    letter=""
+	letter=""
         while [ $try -gt 0 ]; do
-                echo "You have $try attempts"
-		        read -t 10 -p "Enter the letter within 10 seconds: " letter
+        	echo "You have $try attempts"
+		read -t 10 -p "Enter the letter within 10 seconds: " letter
                 if [[ -z $letter ]]; then
-			    		echo ""
-		        fi	
+			echo ""
+		fi	
                 check=0
                 entered_letters=$entered_letters$letter
                 guess_word=""
                 for i in $(seq 1 $len); do
-                        lfw=$(echo "$rword" | cut -c $i) #letter from word
-                        tmpletter=$(echo "$tmp_word" | cut -c $i)
-                        guessletter=$(echo "$guess_word" | cut -c $i)
-                        if [[ $letter == $lfw ]]; then
-                                ((check++))
-                                guess_word=$guess_word$lfw
+                	lfw=$(echo "$rword" | cut -c $i) #letter from word
+                	tmpletter=$(echo "$tmp_word" | cut -c $i)
+                	guessletter=$(echo "$guess_word" | cut -c $i)
+                	if [[ $letter == $lfw ]]; then
+                        	((check++))
+                        	guess_word=$guess_word$lfw
                         elif [[ $tmpletter == [a-z] ]]; then
                                 guess_word=$guess_word$tmpletter
                         else
@@ -154,12 +154,12 @@ game_body () {
                 echo "Guessed word: $guess_word"
                 echo "Entered letters: $entered_letters"
                 if [[ $rword == $guess_word ]]; then
-                		echo ""
+                	echo ""
                         echo "Game won, Congratulation!"
                         echo "The word was: $rword"
                         echo ""
-			            ((wins++))
-			            return 1
+			((wins++))
+			return 1
                 elif [[ check -ge 1 ]]; then
                         print_hangman $try
                         echo ""
@@ -192,32 +192,35 @@ echo "Press q to quit game"
 # Check input name
 while [[ 1 ]]; do
         read -p "Enter your nickname: " nickname
-	      if [[ ! -z $nickname ]]; then
-		            if [[ $nickname == [qQ] ]]; then
-			                  echo "Game ended, Good bye!"
-			                  exit 0
-		            elif [[ $nickname != [a-zA-Z]* ]]; then
-                    		  echo "Name must begin with alphabetic character"
-			                  echo "Try again!"
-			                  continue
-		            elif [[ ${#nickname} -lt 3 ]]; then
-			                  echo "Name is too short"
-			                  echo "Name must be at least 3 characters long"
-			                  echo "Try again."
-        			          continue
-		            fi
-		            # Check nickname in file
-		            if [[ $(grep $nickname player_scores.txt) ]]; then
-			                  echo "Welcome back $nickname!"
-		            else
-			                  echo "Welcome new player $nickname"
-			                  echo "$nickname 0 0" >> player_scores.txt
-		            fi
-		            break
-	      else
-		            echo "Name is empty, try again!"
-		            continue
-	      fi
+	if [[ ! -z $nickname ]]; then
+		if [[ $nickname == [qQ] ]]; then
+			echo "Game ended, Good bye!"
+			exit 0
+		elif [[ $nickname != [a-zA-Z]* ]]; then
+			echo "Name must begin with alphabetic character"
+			echo "Try again!"
+			continue
+		elif [[ ${#nickname} -lt 3 ]]; then
+			echo "Name is too short"
+			echo "Name must be at least 3 characters long"
+			echo "Try again."
+        		continue
+		fi
+		# Check nickname in file
+		if [[ ! -f player_scores.txt ]]; then
+			echo "Player Games Wins" > player_scores.txt
+		fi
+		if [[ $(grep $nickname player_scores.txt) ]]; then
+			echo "Welcome back $nickname!"
+		else
+			echo "Welcome new player $nickname"
+			echo "$nickname 0 0" >> player_scores.txt
+		fi
+		break
+	else
+		echo "Name is empty, try again!"
+		continue
+	fi
 done
 
 # First game init before game loop
@@ -227,27 +230,27 @@ game_init
 while [[ 1 ]]; do
         read option
         case $option in
-                [sS] )
-			    			  ((games++))
-			                  echo "Game $games."
-                        	  echo "Generating random english word..."
-                        	  rword=$(tr -s ' ' '\n' < words | shuf -n 1)
-                        	  echo "Try to guess word"
-			                  game_body
-			                  game_init
-                        	  ;;
+		[sS] )
+			((games++))
+			echo "Game $games."
+			echo "Generating random english word..."
+			rword=$(tr -s ' ' '\n' < ../words | shuf -n 1)
+			echo "Try to guess word"
+			game_body
+			game_init
+                       ;;
                 [qQ] )
-			                  echo
-			                  ./rating.sh $nickname $games $wins
-                        	  echo "Good bye!"
-			                  echo
-			                  echo "Hangman top 10 Leaderboard:"
-			                  head -n11 leaderboard.txt
-                        	  exit 0
-                        	  ;;
+			echo
+			./rating.sh $nickname $games $wins
+			echo "Good bye!"
+			echo
+			echo "Hangman top 10 Leaderboard:"
+			head -n11 leaderboard.txt
+			exit 0
+			;;
                 * )
-                        	  echo "Wrong option"
-			                  game_init
-                        	  ;;
+			echo "Wrong option"
+			game_init
+			;;
         esac
 done
