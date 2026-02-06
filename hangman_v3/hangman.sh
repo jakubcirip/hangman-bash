@@ -18,10 +18,25 @@
 # v3.0
 # add time to make move (to insert one letter)
 # improved rating system
+        # v3.1
+        # adding colors to text
+
+# Setting colors
+# NC - No Color
+NC='\033[0m'            # Text Reset
+# Regular Colors
+red='\033[0;31m'        # Red
+green='\033[0;32m'      # Green
+yellow='\033[0;33m'     # Yellow
+blue='\033[0;34m'       # Blue
+purple='\033[0;35m'     # Purple
+cyan='\033[0;36m'       # Cyan
+# white='\033[0;37m'      # White
+# black='\033[0;30m'      # Black
 
 game_init () {
-        echo "Press 's' start new game"
-        echo "Press 'q' quit game"
+        echo -e "Press ${green}'s'${NC} start new game"
+        echo -e "Press ${red}'q'${NC} quit game"
 }
 
 print_hangman () {
@@ -41,7 +56,7 @@ print_hangman () {
                 7 )
                         echo " +-------+"
                         echo " |       |"
-                        echo " |       O"
+                        echo -e " |       ${red}O${NC}"
                         echo " |"
                         echo " |"
                         echo " |"
@@ -52,8 +67,8 @@ print_hangman () {
                 6 )
                         echo " +-------+"
                         echo " |       |"
-                        echo " |       O"
-                        echo " |       |"
+                        echo -e " |       ${red}O${NC}"
+                        echo -e " |       ${red}|${NC}"
                         echo " |"
                         echo " |"
                         echo " |"
@@ -63,8 +78,8 @@ print_hangman () {
                 5 )
                         echo " +-------+"
                         echo " |       |"
-                        echo " |       O"
-                        echo " |      \|"
+                        echo -e " |       ${red}O${NC}"
+                        echo -e " |      ${red}\|${NC}"
                         echo " |"
                         echo " |"
                         echo " |"
@@ -74,8 +89,8 @@ print_hangman () {
                 4 )
                         echo " +-------+"
                         echo " |       |"
-                        echo " |       O"
-                        echo " |      \|/"
+                        echo -e " |       ${red}O${NC}"
+                        echo -e " |      ${red}\|/${NC}"
                         echo " |"
                         echo " |"
                         echo " |"
@@ -85,9 +100,9 @@ print_hangman () {
                 3 )
                         echo " +-------+"
                         echo " |       |"
-                        echo " |       O"
-                        echo " |      \|/"
-                        echo " |       |"
+                        echo -e " |       ${red}O${NC}"
+                        echo -e " |      ${red}\|/${NC}"
+                        echo -e " |       ${red}|${NC}"
                         echo " |"
                         echo " |"
                         echo " |"
@@ -96,10 +111,10 @@ print_hangman () {
                 2 )
                         echo " +-------+"
                         echo " |       |"
-                        echo " |       O"
-                        echo " |      \|/"
-                        echo " |       |"
-                        echo " |      /"
+                        echo -e " |       ${red}O${NC}"
+                        echo -e " |      ${red}\|/${NC}"
+                        echo -e " |       ${red}|${NC}"
+                        echo -e " |      ${red}/${NC}"
                         echo " |"
                         echo " |"
                         echo "/|\\"
@@ -107,10 +122,10 @@ print_hangman () {
                 1 )
                         echo " +-------+"
                         echo " |       |"
-                        echo " |       O"
-                        echo " |      \|/"
-                        echo " |       |"
-                        echo " |      / \\"
+                        echo -e " |       ${red}O${NC}"
+                        echo -e " |      ${red}\|/${NC}"
+                        echo -e " |       ${red}|${NC}"
+                        echo -e " |      ${red}/ \\ ${NC}"
                         echo " |"
                         echo " |"
                         echo "/|\\"
@@ -123,14 +138,15 @@ print_hangman () {
 
 game_body () {
         len=${#rword}		# length of the random word
-        echo "The word have $len letters"
+        echo -e "The word have ${blue}$len letters${NC}"
         try=7			# number of attempts
         tmp_word=""
         entered_letters=""
 	letter=""
         while [ $try -gt 0 ]; do
-        	echo "You have $try attempts"
-		read -t 10 -p "Enter the letter within 10 seconds: " letter
+        	echo -e  "You have ${yellow}$try${NC} attempts"
+		echo -en "Enter the letter within ${yellow}10 seconds: ${NC}"
+		read -t 10 letter
                 if [[ -z $letter ]]; then
 			echo ""
 		fi	
@@ -151,12 +167,22 @@ game_body () {
                         fi
                 done
                 tmp_word=$guess_word
-                echo "Guessed word: $guess_word"
-                echo "Entered letters: $entered_letters"
+                # echo "Guessed word: $guess_word"
+                echo -e -n "Guessed word: "
+		for i in $(seq 1 $len); do
+                	l=$(echo "$guess_word" | cut -c $i)
+			if [[ $l == - ]]; then
+				echo -e -n "$l"
+			else
+				echo -e -n "${green}$l${NC}"
+			fi
+		done
+		echo ""
+                echo -e "Entered letters: ${blue}$entered_letters${NC}"
                 if [[ $rword == $guess_word ]]; then
                 	echo ""
-                        echo "Game won, Congratulation!"
-                        echo "The word was: $rword"
+                        echo -e "${green}Game won, Congratulation!${NC}"
+                        echo -e "The word was: ${yellow}$rword${NC}"
                         echo ""
 			((wins++))
 			return 1
@@ -168,12 +194,12 @@ game_body () {
                         ((try--))
                         echo ""
                         print_hangman $try
-                        echo "Game over:("
-                        echo "The word was: $rword"
+                        echo -e "${red}Game over:(${NC}"
+                        echo -e "The word was: ${yellow}$rword${NC}"
                         echo ""
                         return 0
                 else
-                        echo "Wrong attempt"
+                        echo -e "${purple}Wrong attempt${NC}"
                         ((try--))
                         print_hangman $try
                         echo ""
@@ -211,7 +237,7 @@ while [[ 1 ]]; do
 			echo "Player Games Wins" > player_scores.txt
 		fi
 		if [[ $(grep $nickname player_scores.txt) ]]; then
-			echo "Welcome back $nickname!"
+			echo -e "Welcome back ${cyan}$nickname${NC}!"
 		else
 			echo "Welcome new player $nickname"
 			echo "$nickname 0 0" >> player_scores.txt
@@ -249,7 +275,7 @@ while [[ 1 ]]; do
 			exit 0
 			;;
                 * )
-			echo "Wrong option"
+			echo -e "${purple}Wrong option${NC}"
 			game_init
 			;;
         esac
