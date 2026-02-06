@@ -14,6 +14,8 @@ Extended version with tracking of player name and player statistics - games play
 Located in hangman_v3/ <br>
 Adding time to perform one move (entering one letter), default set to 10 seconds. <br>
 Improved rating evaluation.
+#### v3.1
+Adding colors to text
 
 ## words
 Source file containing 55525 English words.
