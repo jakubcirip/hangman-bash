@@ -1,5 +1,5 @@
 # hangman-bash
-Simple hangman game in bash by jc.
+Hangman game in bash by jc.
 
 ### Versions:
 ### Hangman v1.0
