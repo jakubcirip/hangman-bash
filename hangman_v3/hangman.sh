@@ -229,8 +229,12 @@ while [[ 1 ]]; do
 		elif [[ ${#nickname} -lt 3 ]]; then
 			echo "Name is too short"
 			echo "Name must be at least 3 characters long"
-			echo "Try again."
+			echo "Try again!"
         		continue
+		elif [[ $nickname = *[[:space:]]* ]]; then
+			echo "Name cannot contain a space"
+			echo "Try again!"
+			continue
 		fi
 		# Check nickname in file
 		if [[ ! -f player_scores.txt ]]; then
